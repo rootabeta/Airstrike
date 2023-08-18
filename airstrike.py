@@ -5,7 +5,7 @@ with open("banner.txt","r",encoding="utf8") as f:
 
 # Get parameters
 main = canonicalize(input("Your main nation: "))
-session = NSSession("Airstrike","0.1","Volstrostia",user)
+session = NSSession("Airstrike","0.1","Volstrostia",main)
 
 region = canonicalize(input("Region: ")) # TODO: Track from nation
 nation = canonicalize(input("RO Nation: "))
