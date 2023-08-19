@@ -22,14 +22,19 @@ with open(banfile, "r") as f:
         nations.append(line.strip())
 
 for nation in nations:
+    fails = 0
     print(f"\r[*] AGM LOCK ON -[ {target.upper()} ]-")
 
     if ban: 
         # Try to ban over and over, until ratelimit clears
         while not session.banject(nation):
             print(f"\r[!] Bomb bay doors stuck closed!")
+            fails += 1
         print(f"\r[+] DETONATION CONFIRMED: {target.upper()}")
     else:
         while not session.eject(nation):
             print(f"\r[!] Bomb bay doors stuck closed!")
+            fails += 1
         print(f"\r[+] DETONATION CONFIRMED: {target.upper()}")
+
+print(f"[+] AIRSTRIKE COMPLETE. RETURNING TO BASE.")
