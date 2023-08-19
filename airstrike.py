@@ -19,7 +19,7 @@ ban = False if str(input("Eject only? (y/N) ")).lower().startswith("y") else Tru
 nations = []
 with open(banfile, "r") as f:
     for line in f.readlines():
-        nations.append(line.strip())
+        nations.append(canonicalize(line.strip()))
 
 for nation in nations:
     fails = 0
