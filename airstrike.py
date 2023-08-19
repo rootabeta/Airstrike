@@ -16,26 +16,29 @@ banfile = input("Path to banlist: ")
 # TODO: Integrate with scribe to determine case-by-case
 ban = False if str(input("Eject only? (y/N) ")).lower().startswith("y") else True
 
-# Read banlist
-nations = []
-with open(banfile, "r") as f:
-    for line in f.readlines():
-        nations.append(canonicalize(line.strip()))
+if session.login(nation, password):
+    # Read banlist
+    nations = []
+    with open(banfile, "r") as f:
+        for line in f.readlines():
+            nations.append(canonicalize(line.strip()))
 
-for nation in nations:
-    fails = 0
-    print(f"\r[*] AGM LOCK ON -[ {target.upper()} ]-")
+    for nation in nations:
+        fails = 0
+        print(f"\r[*] AGM LOCK ON -[ {nation.upper()} ]-")
 
-    if ban: 
-        # Try to ban over and over, until ratelimit clears
-        while not session.banject(nation):
-            print(f"\r[!] Bomb bay doors stuck closed!")
-            fails += 1
-        print(f"\r[+] DETONATION CONFIRMED: {target.upper()}")
-    else:
-        while not session.eject(nation):
-            print(f"\r[!] Bomb bay doors stuck closed!")
-            fails += 1
-        print(f"\r[+] DETONATION CONFIRMED: {target.upper()}")
+        if ban: 
+            # Try to ban over and over, until ratelimit clears
+            while not session.banject(nation):
+                print(f"\r[!] Bomb bay doors stuck closed!")
+                fails += 1
+            print(f"\r[+] DETONATION CONFIRMED: {nation.upper()}")
+        else:
+            while not session.eject(nation):
+                print(f"\r[!] Bomb bay doors stuck closed!")
+                fails += 1
+            print(f"\r[+] DETONATION CONFIRMED: {nation.upper()}")
 
-print(f"[+] AIRSTRIKE COMPLETE. RETURNING TO BASE.")
+    print(f"[+] AIRSTRIKE COMPLETE. RETURNING TO BASE.")
+else:
+    print("Login failed. Check your credentials, ya dingus.")
