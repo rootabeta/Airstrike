@@ -1,4 +1,5 @@
 from nsdotpy.session import NSSession, canonicalize
+from getpass import getpass
 
 with open("banner.txt","r",encoding="utf8") as f:
     print(f.read())
