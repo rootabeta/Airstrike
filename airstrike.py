@@ -1,5 +1,6 @@
 from nsdotpy.session import NSSession, canonicalize
 from getpass import getpass
+import time
 
 with open("banner.txt","r",encoding="utf8") as f:
     print(f.read())
@@ -25,6 +26,7 @@ if session.login(nation, password):
 
     for nation in nations:
         fails = 0
+        failure = False
         print(f"\r[*] AGM LOCK ON -[ {nation.upper()} ]-")
 
         if ban: 
@@ -32,12 +34,29 @@ if session.login(nation, password):
             while not session.banject(nation):
                 print(f"\r[!] Bomb bay doors stuck closed!")
                 fails += 1
-            print(f"\r[+] DETONATION CONFIRMED: {nation.upper()}")
+                if fails > 3:
+                    print(f"\r[!] Three strikes and {nation.upper()} is out!")
+                    failure = True
+                    break
+
+            if not failure:
+                print(f"\r[+] DETONATION CONFIRMED: {nation.upper()}")
+                time.sleep(1.1)
+            else:
+                continue
+
         else:
             while not session.eject(nation):
                 print(f"\r[!] Bomb bay doors stuck closed!")
                 fails += 1
-            print(f"\r[+] DETONATION CONFIRMED: {nation.upper()}")
+                if fails > 3:
+                    print(f"\r[!] Three strikes and {nation.upper()} is out!")
+                    failure = True
+                    break
+
+            if not failure:
+                print(f"\r[+] DETONATION CONFIRMED: {nation.upper()}")
+                time.sleep(1.1)
 
     print(f"[+] AIRSTRIKE COMPLETE. RETURNING TO BASE.")
 else:
